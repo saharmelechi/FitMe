@@ -52,20 +52,25 @@ public class TrainerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if(convertView == null){
+        if(convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
 
-            convertView = layoutInflater.inflate(R.layout.accomplishments,parent, false);
+            convertView = layoutInflater.inflate(R.layout.accomplishments, parent, false);
 
-            TrainerView trainer = new TrainerView( convertView.findViewById(R.id.txtName),
-                                                    convertView.findViewById(R.id.txtAge),
-                                                    convertView.findViewById(R.id.PersonPicture),
-                                                    convertView.findViewById(R.id.ImgTargil));
-                convertView.setTag(trainer);
+            TrainerView trainer = new TrainerView(convertView.findViewById(R.id.txtName),
+                    convertView.findViewById(R.id.txtAge),
+                    convertView.findViewById(R.id.PersonPicture),
+                    convertView.findViewById(R.id.ImgTargil));
+            convertView.setTag(trainer);
 
         }
-        //Need to Implement here get tag
-        
+
+        TrainerView tv = (TrainerView) convertView.getTag();
+        Trainer t = trainers.get(position);
+        tv.Age.setText(t.getAge());
+        tv.ImgProfile.setImageResource(R.drawable.ic_launcher_background);
+        tv.ImgTargil.setImageResource(R.drawable.ic_launcher_background);
+        tv.Name.setText(t.getName());
 
         return convertView;
     }
