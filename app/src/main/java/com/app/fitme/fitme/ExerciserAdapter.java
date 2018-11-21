@@ -1,5 +1,7 @@
 package com.app.fitme.fitme;
 
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +11,14 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class ExerciserAdapter extends BaseAdapter {
+public class ExerciserAdapter extends RecyclerView.Adapter<ExerciserAdapter.ExerciserView> {
     List<Exerciser> exercisers;
 
     public ExerciserAdapter(List<Exerciser> exercisers) {
         this.exercisers = exercisers;
     }
 
-    private class ExerciserView {
+    public class ExerciserView extends  RecyclerView.ViewHolder{
         public TextView Name;
 
         public TextView Age;
@@ -25,52 +27,47 @@ public class ExerciserAdapter extends BaseAdapter {
 
         public ImageView ImgTargil;
 
-        public ExerciserView(View name, View age, View imgProfile, View imgTargil) {
-            Name = (TextView) name;
-            Age = (TextView) age;
-            ImgProfile = (ImageView) imgProfile;
-            ImgTargil = (ImageView) imgTargil;
+        public ExerciserView(View itemView) {
+            super(itemView);
+            Name = itemView.findViewById(R.id.txtName);
+             Age =    itemView.findViewById(R.id.txtAge);
+             ImgProfile   =    itemView.findViewById(R.id.PersonPicture);
+              ImgTargil =      itemView.findViewById(R.id.ImgTargil);
+
+
+
         }
     }
 
+
+    @NonNull
     @Override
-    public int getCount() {
-        return this.exercisers.size();
+    public ExerciserView onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+
+
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.accomplishments, viewGroup, false);
+
+        return new ExerciserView(view);
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public void onBindViewHolder(@NonNull ExerciserView exerciserView, int position) {
+        Exerciser res = this.exercisers.get(position);
+        exerciserView.Age.setText(Float.toString(res.getAge()));
+        exerciserView.ImgProfile.setImageBitmap(res.getImgProfile());
+        exerciserView.ImgTargil.setImageBitmap(res.getImgExercise());
+        exerciserView.Name.setText(res.getName());
+
     }
 
     @Override
     public long getItemId(int position) {
+//        return (this.exercisers.get(position));
         return 0;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        if(convertView == null) {
-            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-
-            convertView = layoutInflater.inflate(R.layout.accomplishments, parent, false);
-
-            ExerciserView trainer = new ExerciserView(convertView.findViewById(R.id.txtName),
-                    convertView.findViewById(R.id.txtAge),
-                    convertView.findViewById(R.id.PersonPicture),
-                    convertView.findViewById(R.id.ImgTargil));
-            convertView.setTag(trainer);
-
-        }
-
-        ExerciserView tv = (ExerciserView) convertView.getTag();
-        Exerciser t = exercisers.get(position);
-        tv.Age.setText(Float.toString(t.getAge()));
-        tv.ImgProfile.setImageBitmap(t.getImgProfile());
-        tv.ImgTargil.setImageBitmap(t.getImgExercise());
-        tv.Name.setText(t.getName());
-
-        return convertView;
+    public int getItemCount() {
+        return 0;
     }
 }
