@@ -7,17 +7,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class TrainerAdapter extends BaseAdapter {
-    List<Trainer> trainers;
+public class ExerciserAdapter extends BaseAdapter {
+    List<Exerciser> exercisers;
 
-    public TrainerAdapter(List<Trainer> trainers) {
-        this.trainers = trainers;
+    public ExerciserAdapter(List<Exerciser> exercisers) {
+        this.exercisers = exercisers;
     }
 
-    private class TrainerView{
+    private class ExerciserView {
         public TextView Name;
 
         public TextView Age;
@@ -26,7 +25,7 @@ public class TrainerAdapter extends BaseAdapter {
 
         public ImageView ImgTargil;
 
-        public TrainerView(View name, View age, View imgProfile, View imgTargil) {
+        public ExerciserView(View name, View age, View imgProfile, View imgTargil) {
             Name = (TextView) name;
             Age = (TextView) age;
             ImgProfile = (ImageView) imgProfile;
@@ -36,7 +35,7 @@ public class TrainerAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return this.trainers.size();
+        return this.exercisers.size();
     }
 
     @Override
@@ -57,7 +56,7 @@ public class TrainerAdapter extends BaseAdapter {
 
             convertView = layoutInflater.inflate(R.layout.accomplishments, parent, false);
 
-            TrainerView trainer = new TrainerView(convertView.findViewById(R.id.txtName),
+            ExerciserView trainer = new ExerciserView(convertView.findViewById(R.id.txtName),
                     convertView.findViewById(R.id.txtAge),
                     convertView.findViewById(R.id.PersonPicture),
                     convertView.findViewById(R.id.ImgTargil));
@@ -65,11 +64,11 @@ public class TrainerAdapter extends BaseAdapter {
 
         }
 
-        TrainerView tv = (TrainerView) convertView.getTag();
-        Trainer t = trainers.get(position);
-        tv.Age.setText(t.getAge());
-        tv.ImgProfile.setImageResource(R.drawable.ic_launcher_background);
-        tv.ImgTargil.setImageResource(R.drawable.ic_launcher_background);
+        ExerciserView tv = (ExerciserView) convertView.getTag();
+        Exerciser t = exercisers.get(position);
+        tv.Age.setText(Float.toString(t.getAge()));
+        tv.ImgProfile.setImageBitmap(t.getImgProfile());
+        tv.ImgTargil.setImageBitmap(t.getImgExercise());
         tv.Name.setText(t.getName());
 
         return convertView;

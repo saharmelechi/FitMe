@@ -1,18 +1,19 @@
 package com.app.fitme.fitme;
 
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-public class Trainer {
+public class Exerciser {
 
     private String Name;
 
-    private String Age;
+    private float Age;
 
-    private ImageView ImgProfile;
+    private Bitmap ImgProfile;
 
-    private ImageView ImgTargil;
+    private Bitmap ImgTargil;
 
-    public Trainer(String name, String age, ImageView imgProfile, ImageView imgTargil) {
+    public Exerciser(String name, float age, Bitmap imgProfile, Bitmap imgTargil) {
         Name = name;
         Age = age;
         ImgProfile = imgProfile;
@@ -23,15 +24,15 @@ public class Trainer {
         return Name;
     }
 
-    public String getAge() {
+    public float getAge() {
         return Age;
     }
 
-    public ImageView getImgProfile() {
+    public Bitmap getImgProfile() {
         return ImgProfile;
     }
 
-    public ImageView getImgTargil() {
+    public Bitmap getImgExercise() {
         return ImgTargil;
     }
 }
