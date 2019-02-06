@@ -13,4 +13,19 @@
         completions."
     </string>
     <string name="title_activity_main">MainActivity</string>
+
+    <string name="title">Title</string>
+    <string name="description">Desc</string>
+    <string name="ok">GOT IT</string>
+    <string name="skip">Skip</string>
+    <string name="title_activity_bottom_nav">BottomNavActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_Updates">Updates</string>
+    <string name="title_remove">Remove</string>
+    <string name="title_remove2">Remove Stack</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>

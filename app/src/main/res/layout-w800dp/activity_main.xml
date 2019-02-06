@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    >
+
+    <include layout="@layout/left_menu"/>
+
+    <fragment
+        android:id="@+id/mail_list_two"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:name="com.app.fitme.fitme.Fragments.MailListFragment"
+        tools:layout="@layout/mail_list_fragment"
+        />
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:name="com.app.fitme.fitme.Fragments.DetailsFragment"
+        tools:layout="@layout/mail_details"
+        />
+
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.app.fitme.fitme;
+package com.app.fitme.fitme.Models;
 
 import android.graphics.Bitmap;
 import android.widget.ImageView;

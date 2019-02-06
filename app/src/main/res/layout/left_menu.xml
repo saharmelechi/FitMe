@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg"
+    android:gravity="center_horizontal"
+    android:padding="10dp">
+
+
+
+    <ImageButton
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:srcCompat="@drawable/face"
+        android:scaleType="fitXY"
+        android:focusable="false"
+        style="@style/left_menu_button"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_move_to_inbox_black_48dp"
+        style="@style/left_menu_button"
+        android:focusable="false"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_people_black_48dp"
+        style="@style/left_menu_button"
+        android:focusable="false"
+        />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_more_horiz_black_48dp"
+        style="@style/left_menu_button"
+        android:focusable="false"
+        />
+</LinearLayout>
