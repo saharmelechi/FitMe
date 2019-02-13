@@ -1,38 +1,48 @@
 package com.app.fitme.fitme.Models;
 
-import android.graphics.Bitmap;
-import android.widget.ImageView;
+import android.text.method.DateTimeKeyListener;
 
-public class Exerciser {
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
-    private String Name;
+public class Exerciser implements Serializable {
+    String name;
+    int avatar;
+    String subject;
+    String content;
+    long date;
 
-    private float Age;
-
-    private Bitmap ImgProfile;
-
-    private Bitmap ImgTargil;
-
-    public Exerciser(String name, float age, Bitmap imgProfile, Bitmap imgTargil) {
-        Name = name;
-        Age = age;
-        ImgProfile = imgProfile;
-        ImgTargil = imgTargil;
+    public Exerciser(String name, int avatar, String subject, String content, long date) {
+        this.name = name;
+        this.avatar = avatar;
+        this.subject = subject;
+        this.content = content;
+        this.date = date;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public float getAge() {
-        return Age;
+    public int getAvatar() {
+        return avatar;
     }
 
-    public Bitmap getImgProfile() {
-        return ImgProfile;
+    public String getSubject() {
+        return subject;
     }
 
-    public Bitmap getImgExercise() {
-        return ImgTargil;
+    public String getContent() {
+        return content;
+    }
+
+    public long getDate() { return this.date; }
+
+    public String getForamtedDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        String currentDateandTime = sdf.format(new Date(this.getDate()));
+        return currentDateandTime;
     }
 }

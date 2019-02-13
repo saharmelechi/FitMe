@@ -13,7 +13,7 @@
         android:id="@+id/mail_list_one"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.app.fitme.fitme.Fragments.MailListFragment"
+        android:name="com.app.fitme.fitme.Fragments.ExerciserListFragment"
         tools:layout="@layout/mail_list_fragment"
         />
 

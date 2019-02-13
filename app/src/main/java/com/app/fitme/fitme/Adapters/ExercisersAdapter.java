@@ -9,26 +9,26 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.app.fitme.fitme.Fragments.MailListFragment;
-import com.app.fitme.fitme.Models.Mail;
+import com.app.fitme.fitme.Fragments.ExerciserListFragment;
+import com.app.fitme.fitme.Models.Exerciser;
 import com.app.fitme.fitme.R;
 
 
 import java.util.List;
 
-public class MailsAdapter extends BaseAdapter {
+public class ExercisersAdapter extends BaseAdapter {
 
-    List<Mail> mails;
-    MailListFragment.SelectionListener listener;
+    List<Exerciser> exercisers;
+    ExerciserListFragment.SelectionListener listener;
 
-    public MailsAdapter(List<Mail> mails, MailListFragment.SelectionListener listener){
-        this.mails = mails;
+    public ExercisersAdapter(List<Exerciser> exercisers, ExerciserListFragment.SelectionListener listener){
+        this.exercisers = exercisers;
         this.listener = listener;
     }
 
     @Override
     public int getCount() {
-        return mails.size();
+        return exercisers.size();
     }
 
     @Override
@@ -51,26 +51,18 @@ public class MailsAdapter extends BaseAdapter {
 
         ViewHolder holder = (ViewHolder) convertView.getTag();
 
-        Mail mail = mails.get(position);
+        Exerciser exerciser = exercisers.get(position);
 
-        holder.imgAvatar.setImageResource(mail.getAvatar());
-        holder.tvTitle.setText(mail.getName());
-        holder.tvSubTitle.setText(mail.getSubject());
-        holder.tvContent.setText(mail.getContent());
-        holder.tvDate.setText(mail.getDate());
+        holder.imgAvatar.setImageResource(exerciser.getAvatar());
+        holder.tvTitle.setText(exerciser.getName());
+        holder.tvSubTitle.setText(exerciser.getSubject());
+        holder.tvContent.setText(exerciser.getContent());
 
-        final View finalConvertView = convertView;
-        convertView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                PopupMenu popup = new PopupMenu(v.getContext(), finalConvertView);
-                MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.context_menu, popup.getMenu());
-                popup.show();
+        holder.tvDate.setText(exerciser.getForamtedDate());
 
-                    return true;
-            }
-        });
+
+
+
 
         return convertView;
     }

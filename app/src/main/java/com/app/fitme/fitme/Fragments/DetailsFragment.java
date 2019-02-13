@@ -15,8 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.fitme.fitme.Activities.BottomNavActivity;
-import com.app.fitme.fitme.Models.Mail;
+import com.app.fitme.fitme.Models.Exerciser;
 import com.app.fitme.fitme.R;
+
+import java.util.Calendar;
 
 
 public class DetailsFragment extends Fragment {
@@ -65,12 +67,12 @@ public class DetailsFragment extends Fragment {
         view.setVisibility(View.INVISIBLE);
     }
 
-    public void setDetails(Mail mail) {
-        tvTitle.setText(mail.getSubject());
-        tvContent.setText(mail.getContent());
-        tvName.setText(mail.getName());
-        tvDate.setText(mail.getDate());
-        imgAvatar.setImageResource(mail.getAvatar());
+    public void setDetails(Exerciser exerciser) {
+        tvTitle.setText(exerciser.getSubject());
+        tvContent.setText(exerciser.getContent());
+        tvName.setText(exerciser.getName());
+        tvDate.setText(exerciser.getForamtedDate());
+        imgAvatar.setImageResource(exerciser.getAvatar());
 
         if (!getView().isShown())
             getView().setVisibility(View.VISIBLE);
