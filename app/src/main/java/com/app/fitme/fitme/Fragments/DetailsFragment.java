@@ -18,8 +18,6 @@ import com.app.fitme.fitme.Activities.BottomNavActivity;
 import com.app.fitme.fitme.Models.Exerciser;
 import com.app.fitme.fitme.R;
 
-import java.util.Calendar;
-
 
 public class DetailsFragment extends Fragment {
 
@@ -40,7 +38,7 @@ public class DetailsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.mail_details, container, false);
+        return inflater.inflate(R.layout.exercise_details, container, false);
     }
 
     @Override
@@ -71,8 +69,9 @@ public class DetailsFragment extends Fragment {
         tvTitle.setText(exerciser.getSubject());
         tvContent.setText(exerciser.getContent());
         tvName.setText(exerciser.getName());
-        tvDate.setText(exerciser.getForamtedDate());
-        imgAvatar.setImageResource(exerciser.getAvatar());
+        tvDate.setText(exerciser.formatDate());
+        //imgAvatar.setImageResource(exerciser.getAvatar());
+        //TODO: load with glide
 
         if (!getView().isShown())
             getView().setVisibility(View.VISIBLE);

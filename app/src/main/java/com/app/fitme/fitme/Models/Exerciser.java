@@ -9,12 +9,12 @@ import java.util.Date;
 
 public class Exerciser implements Serializable {
     String name;
-    int avatar;
+    String avatar;
     String subject;
     String content;
     long date;
 
-    public Exerciser(String name, int avatar, String subject, String content, long date) {
+    public Exerciser(String name, String avatar, String subject, String content, long date) {
         this.name = name;
         this.avatar = avatar;
         this.subject = subject;
@@ -26,7 +26,7 @@ public class Exerciser implements Serializable {
         return name;
     }
 
-    public int getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
@@ -40,9 +40,10 @@ public class Exerciser implements Serializable {
 
     public long getDate() { return this.date; }
 
-    public String getForamtedDate(){
+
+    public String formatDate(){
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        String currentDateandTime = sdf.format(new Date(this.getDate()));
-        return currentDateandTime;
+        return sdf.format(new Date(this.getDate()));
+
     }
 }

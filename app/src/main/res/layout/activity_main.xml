@@ -5,16 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-
     tools:context=".Activities.MainActivity">
 
 
     <fragment
-        android:id="@+id/mail_list_one"
+        android:id="@+id/exerciser_list_one"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:name="com.app.fitme.fitme.Fragments.ExerciserListFragment"
-        tools:layout="@layout/mail_list_fragment"
+        tools:layout="@layout/exerciser_list_fragment"
         />
 
     <android.support.design.widget.FloatingActionButton
@@ -25,7 +24,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 
 </RelativeLayout>

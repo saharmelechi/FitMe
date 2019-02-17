@@ -1,39 +1,42 @@
 package com.app.fitme.fitme.Adapters;
 
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.app.fitme.fitme.Fragments.ExerciserListFragment;
 import com.app.fitme.fitme.Models.Exerciser;
 import com.app.fitme.fitme.R;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 
+public class ExercisersAdapter extends FirebaseRecyclerAdapter<Exerciser, ExercisersAdapter.ExerciserViewHolder> {
 
-import java.util.List;
-
-public class ExercisersAdapter extends BaseAdapter {
-
-    List<Exerciser> exercisers;
-    ExerciserListFragment.SelectionListener listener;
-
-    public ExercisersAdapter(List<Exerciser> exercisers, ExerciserListFragment.SelectionListener listener){
-        this.exercisers = exercisers;
-        this.listener = listener;
+    public ExercisersAdapter(@NonNull FirebaseRecyclerOptions<Exerciser> options) {
+        super(options);
     }
 
-    @Override
-    public int getCount() {
-        return exercisers.size();
-    }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    protected void onBindViewHolder(@NonNull ExerciserViewHolder holder, int position, @NonNull Exerciser exerciser) {
+
+        //holder.imgAvatar.setImageResource(exerciser.getAvatar());
+        //TODO: load with glide
+
+        holder.tvTitle.setText(exerciser.getName());
+        holder.tvSubTitle.setText(exerciser.getSubject());
+        holder.tvContent.setText(exerciser.getContent());
+        holder.tvDate.setText(exerciser.formatDate());
+    }
+
+    @NonNull
+    @Override
+    public ExerciserViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View convertView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.exerciser_list_item, viewGroup, false);
+        return new ExerciserViewHolder(convertView);
     }
 
     @Override
@@ -41,33 +44,8 @@ public class ExercisersAdapter extends BaseAdapter {
         return 0;
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null){
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.mail_list_item, parent, false);
 
-            convertView.setTag(new ViewHolder(convertView));
-        }
-
-        ViewHolder holder = (ViewHolder) convertView.getTag();
-
-        Exerciser exerciser = exercisers.get(position);
-
-        holder.imgAvatar.setImageResource(exerciser.getAvatar());
-        holder.tvTitle.setText(exerciser.getName());
-        holder.tvSubTitle.setText(exerciser.getSubject());
-        holder.tvContent.setText(exerciser.getContent());
-
-        holder.tvDate.setText(exerciser.getForamtedDate());
-
-
-
-
-
-        return convertView;
-    }
-
-    class ViewHolder{
+    class ExerciserViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgAvatar;
         TextView tvTitle;
@@ -76,7 +54,8 @@ public class ExercisersAdapter extends BaseAdapter {
         TextView tvDate;
 
 
-        public ViewHolder(View view) {
+        public ExerciserViewHolder(View view) {
+            super(view);
             imgAvatar = view.findViewById(R.id.imgAvatar);
             tvTitle = view.findViewById(R.id.tvTitle);
             tvSubTitle = view.findViewById(R.id.tvSubTitle);

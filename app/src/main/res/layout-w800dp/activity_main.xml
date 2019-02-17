@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:name="com.app.fitme.fitme.Fragments.ExerciserListFragment"
-        tools:layout="@layout/mail_list_fragment"
+        tools:layout="@layout/exerciser_list_fragment"
         />
 
     <fragment
@@ -25,7 +25,7 @@
         android:layout_height="match_parent"
         android:layout_weight="2"
         android:name="com.app.fitme.fitme.Fragments.DetailsFragment"
-        tools:layout="@layout/mail_details"
+        tools:layout="@layout/exercise_details"
         />
 
 </LinearLayout>
