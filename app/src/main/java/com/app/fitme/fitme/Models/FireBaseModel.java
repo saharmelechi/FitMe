@@ -18,6 +18,7 @@ public class FireBaseModel {
 
     static public FireBaseModel instance = new FireBaseModel();
     final public String DB_NAME = "users";
+    final public String STORAGE_NAME = "images";
     private FireBaseModel() {
     }
 
@@ -26,14 +27,13 @@ public class FireBaseModel {
 
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child(DB_NAME);
         //mRef.child(mRef.push().getKey()).setValue(m);
-        mRef.child( FirebaseAuth.getInstance().getCurrentUser().getEmail() + "/" + m.getDate()).setValue(m);
+//        mRef.child( FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + m.getDate()).setValue(m);
+        mRef.child( "" + m.getDate()).setValue(m);
     }
 
     public FirebaseRecyclerOptions<Exerciser> getAllMessages() {
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
-        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child(DB_NAME);
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference(DB_NAME);
 
         FirebaseRecyclerOptions<Exerciser> options = new FirebaseRecyclerOptions.Builder<Exerciser>()
                 .setQuery(mRef, Exerciser.class)
@@ -43,9 +43,9 @@ public class FireBaseModel {
     }
 
     public void upload(final Exerciser exe){
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images");
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(STORAGE_NAME );
 
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         final StorageReference ref = storageRef.child(
                                     uid).child(exe.formatDate());
@@ -63,6 +63,7 @@ public class FireBaseModel {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
+                    exe.avatar = downloadUri.toString();
                     FireBaseModel.instance.addExercise(exe);
                 }
             }

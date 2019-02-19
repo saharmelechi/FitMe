@@ -22,7 +22,7 @@ import com.app.fitme.fitme.R;
 
 import java.util.List;
 
-public class ExerciserListFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class ExerciserListFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     List<Exerciser> exercisers;
     RecyclerView lstExerciser;
@@ -30,24 +30,6 @@ public class ExerciserListFragment extends Fragment implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ((SelectionListener) getActivity()).onItemSeleceted(exercisers.get(position));
-    }
-
-//    @Override
-//    public void onListItemClick(ListView l, View v, int position, long id) {
-//        super.onListItemClick(l, v, position, id);
-//
-//        ((SelectionListener) getActivity()).onItemSeleceted(exercisers.get(position));
-//    }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        PopupMenu popup = new PopupMenu(view.getContext(), view);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.context_menu, popup.getMenu());
-        //TODO: link delete to exercisers.get(position).delete()
-        //TODO: link Edit to exercisers.get(position).Edit()
-        popup.show();
-        return true;
     }
 
 
@@ -66,20 +48,25 @@ public class ExerciserListFragment extends Fragment implements AdapterView.OnIte
     }
 
     @Override
+    public void onStart() {
+            super.onStart();
+            ((ExercisersAdapter)lstExerciser.getAdapter()).startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((ExercisersAdapter)lstExerciser.getAdapter()).stopListening();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ExercisersAdapter adapter = new ExercisersAdapter(FireBaseModel.instance.getAllMessages());
-
+        ExercisersAdapter adapter = new ExercisersAdapter(FireBaseModel.instance.getAllMessages(), getActivity());
 
         lstExerciser.setLayoutManager(new LinearLayoutManager(this.getContext()));
         lstExerciser.setAdapter(adapter);
-
-
-        //getView().setOnItemLongClickListener(this);
-        //getView().setOnItemClickListener(this);
-
-
     }
 
 }

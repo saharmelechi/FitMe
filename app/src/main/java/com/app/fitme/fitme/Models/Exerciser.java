@@ -14,6 +14,11 @@ public class Exerciser implements Serializable {
     String content;
     long date;
 
+    public Exerciser() {
+
+    }
+
+
     public Exerciser(String name, String avatar, String subject, String content, long date) {
         this.name = name;
         this.avatar = avatar;
