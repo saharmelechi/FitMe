@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements ExerciserListFrag
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
 
 
-            Exerciser m = new Exerciser("",data.getData().toString(), "Intense exercise", "long content here", 98998089890L );
+            Exerciser m = new Exerciser("",data.getData().toString(), "Intense exercise", "long content here", 98998089891L );
             FireBaseModel.instance.upload(m);
 
 //            fileToUpload = data.getData();

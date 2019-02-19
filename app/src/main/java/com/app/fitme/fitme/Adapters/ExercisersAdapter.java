@@ -61,7 +61,6 @@ public class ExercisersAdapter extends FirebaseRecyclerAdapter<Exerciser, Exerci
                             ((ExerciserListFragment.SelectionListener) main).onItemSeleceted(exerciser);
                         } else  {
                             getRef(position).removeValue();
-                            //TODO:Delete the task
                         }
 
                         return true;
