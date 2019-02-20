@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "372751281117-9tkd99jb6jstng12am4vfj4bih5pqe0s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.fitme.fitme",
+            "certificate_hash": "2c33d2a588ae2be79686dc3dbab530f5c45eab81"
+          }
+        },
+        {
           "client_id": "372751281117-lh95ujuun9bqtj67175r2kjtht7qg8ot.apps.googleusercontent.com",
           "client_type": 3
         }

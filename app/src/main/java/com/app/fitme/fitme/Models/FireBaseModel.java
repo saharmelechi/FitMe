@@ -18,7 +18,6 @@ public class FireBaseModel {
 
     static public FireBaseModel instance = new FireBaseModel();
     final public String DB_NAME = "users";
-    final public String STORAGE_NAME = "images";
     private FireBaseModel() {
     }
 
@@ -27,13 +26,14 @@ public class FireBaseModel {
 
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child(DB_NAME);
         //mRef.child(mRef.push().getKey()).setValue(m);
-//        mRef.child( FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + m.getDate()).setValue(m);
-        mRef.child( "" + m.getDate()).setValue(m);
+        mRef.child( FirebaseAuth.getInstance().getCurrentUser().getEmail() + "/" + m.getDate()).setValue(m);
     }
 
     public FirebaseRecyclerOptions<Exerciser> getAllMessages() {
 
-        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference(DB_NAME);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child(DB_NAME);
 
         FirebaseRecyclerOptions<Exerciser> options = new FirebaseRecyclerOptions.Builder<Exerciser>()
                 .setQuery(mRef, Exerciser.class)
@@ -43,14 +43,14 @@ public class FireBaseModel {
     }
 
     public void upload(final Exerciser exe){
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(STORAGE_NAME );
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images");
 
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         final StorageReference ref = storageRef.child(
                                     uid).child(exe.formatDate());
 
-        ref.putFile(Uri.parse(exe.exeImage)).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+        ref.putFile(Uri.parse(exe.avatar)).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                 if (!task.isSuccessful()) {
@@ -63,7 +63,6 @@ public class FireBaseModel {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
-                    exe.exeImage = downloadUri.toString();
                     FireBaseModel.instance.addExercise(exe);
                 }
             }
