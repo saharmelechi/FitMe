@@ -3,32 +3,43 @@ package com.app.fitme.fitme.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.fitme.fitme.Activities.BottomNavActivity;
 import com.app.fitme.fitme.Models.Exerciser;
+import com.app.fitme.fitme.Models.FireBaseModel;
 import com.app.fitme.fitme.R;
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.text.SimpleDateFormat;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class DetailsFragment extends Fragment {
+    private static final int PICK_IMAGE = 333;
 
-    TextView tvTitle;
-    TextView tvContent;
-    TextView tvName;
+    EditText tvTitle;
+    EditText tvContent;
+    EditText  tvName;
     ImageView imgAvatar;
+    ImageView imgExercise;
     TextView tvDate;
-    FloatingActionButton btn;
+    FloatingActionButton btnEditSave;
     ImageButton btnStar;
-
+    private String imgExerciseUri;
 
 
     public DetailsFragment() {
@@ -45,35 +56,107 @@ public class DetailsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-        tvContent = (TextView) view.findViewById(R.id.tvContent);
-        tvName = (TextView) view.findViewById(R.id.tvName);
-        tvDate = (TextView) view.findViewById(R.id.tvDate);
+        tvTitle = view.findViewById(R.id.tvTitle);
+        tvContent =view.findViewById(R.id.tvContent);
+        tvName =  view.findViewById(R.id.tvName);
+        tvDate =  view.findViewById(R.id.tvDate);
         imgAvatar = (ImageView) view.findViewById(R.id.imgAvatar);
-        btn = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
+        imgExercise = (ImageView) view.findViewById(R.id.exerciseImage);
+        btnEditSave = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
 
-
-        btn.setOnClickListener(new View.OnClickListener() {
+        btnEditSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(v.getContext(), BottomNavActivity.class);
-                startActivity(intent);
+                if (tvTitle.isEnabled()) {
+                    save();
+                } else {
+                    SetEdit(true);
+                }
+//                Intent intent = new Intent();
+//                intent.setClass(v.getContext(), BottomNavActivity.class);
+//                startActivity(intent);
             }
         });
 
         view.setVisibility(View.INVISIBLE);
     }
 
-    public void setDetails(Exerciser exerciser) {
+
+
+    public void setDetails(Exerciser exerciser,boolean EditMode) {
+        tvDate.setText(exerciser.formatDate());
         tvTitle.setText(exerciser.getSubject());
         tvContent.setText(exerciser.getContent());
         tvName.setText(exerciser.getName());
-        tvDate.setText(exerciser.formatDate());
-        //imgAvatar.setImageResource(exerciser.getAvatar());
-        //TODO: load with glide
 
+
+        setImgExercise(exerciser.getExeImage());
+
+        SetEdit(EditMode);
         if (!getView().isShown())
             getView().setVisibility(View.VISIBLE);
+    }
+
+    private  void setImgExercise(String image){
+        Glide.with(getContext()).load(image).into(imgExercise);
+        imgExerciseUri = image;
+    }
+
+    public void SetEdit(boolean EditMode) {
+        tvTitle.setEnabled(EditMode);
+        tvContent.setEnabled(EditMode);
+        tvName.setEnabled(EditMode);
+
+
+        if (EditMode) {
+            btnEditSave.setImageResource(android.R.drawable.ic_menu_save);
+
+            imgExercise.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    startActivityForResult(Intent.createChooser(intent, "Select file"), PICK_IMAGE);
+
+                }
+            });
+        } else  {
+            btnEditSave.setImageResource(R.drawable.ic_create_white_48dp);
+            imgExercise.setOnClickListener(null);
+        }
+    }
+
+    private void save() {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            long time = sdf.parse(tvDate.getText().toString()).getTime();
+
+            Exerciser exerciser  = new Exerciser(tvName.getText().toString(),
+                    imgExerciseUri,
+                    tvTitle.getText().toString(),
+                    tvContent.getText().toString(),
+                    time);
+
+        FireBaseModel.instance.upload(exerciser);
+
+        }catch (Exception e)
+        {
+            Snackbar.make(getView(), "Exercise Failed to save", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
+        Snackbar.make(getView(), "Exercise Saved", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+
+        SetEdit(false);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+            setImgExercise(data.getData().toString());
+        }
     }
 }

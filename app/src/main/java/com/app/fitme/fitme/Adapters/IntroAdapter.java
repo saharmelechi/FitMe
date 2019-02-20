@@ -11,9 +11,9 @@ import com.app.fitme.fitme.R;
 
 public class IntroAdapter extends FragmentPagerAdapter {
 
-    Data[] data = { new Data("Lets talk about the elephant in the room", R.drawable.intro1),
-            new Data("Do more, think less", R.drawable.intro2),
-            new Data("Eat healthy", R.drawable.intro3)};
+    Data[] data = { new Data("Do you feel like an Elephant?", R.drawable.intro1),
+            new Data("Exercise with us", R.drawable.intro2),
+            new Data("And be happy", R.drawable.intro3)};
 
     public IntroAdapter(FragmentManager fm) {
         super(fm);
