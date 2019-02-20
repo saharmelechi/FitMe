@@ -1,8 +1,6 @@
 package com.app.fitme.fitme.Models;
 
-import android.net.Uri;
-
-import com.app.fitme.fitme.R;
+import android.text.method.DateTimeKeyListener;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -11,27 +9,14 @@ import java.util.Date;
 
 public class Exerciser implements Serializable {
     String name;
-    String exeImage;
+    String avatar;
     String subject;
     String content;
     long date;
 
-    public Exerciser(){
-
-    }
-
-    public Exerciser(String UserName) {
-        date = Calendar.getInstance().getTimeInMillis();
-        this.name = UserName;
-        this.subject = "Put subject here";
-        this.content = "Hard work pays";
-        this.exeImage =  Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +R.drawable.avatar2).toString();
-    }
-
-
-    public Exerciser(String name, String exeImage, String subject, String content, long date) {
+    public Exerciser(String name, String avatar, String subject, String content, long date) {
         this.name = name;
-        this.exeImage = exeImage;
+        this.avatar = avatar;
         this.subject = subject;
         this.content = content;
         this.date = date;
@@ -41,8 +26,8 @@ public class Exerciser implements Serializable {
         return name;
     }
 
-    public String getExeImage() {
-        return exeImage;
+    public String getAvatar() {
+        return avatar;
     }
 
     public String getSubject() {
