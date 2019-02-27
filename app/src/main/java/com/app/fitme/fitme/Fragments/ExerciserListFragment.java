@@ -29,12 +29,12 @@ public class ExerciserListFragment extends Fragment implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ((SelectionListener) getActivity()).onItemSeleceted(exercisers.get(position));
+        ((SelectionListener) getActivity()).onItemSeleceted(exercisers.get(position),false);
     }
 
 
     public interface SelectionListener {
-        void onItemSeleceted(Exerciser exerciser);
+        void onItemSeleceted(Exerciser exerciser, boolean EditMode);
     }
 
     @Override
@@ -49,14 +49,18 @@ public class ExerciserListFragment extends Fragment implements AdapterView.OnIte
 
     @Override
     public void onStart() {
-            super.onStart();
-            ((ExercisersAdapter)lstExerciser.getAdapter()).startListening();
+        super.onStart();
+        if (lstExerciser.getAdapter() != null) {
+            ((ExercisersAdapter) lstExerciser.getAdapter()).startListening();
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        ((ExercisersAdapter)lstExerciser.getAdapter()).stopListening();
+        if (lstExerciser.getAdapter() != null) {
+            ((ExercisersAdapter) lstExerciser.getAdapter()).stopListening();
+        }
     }
 
     @Override

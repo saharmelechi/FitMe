@@ -15,6 +15,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         DetailsFragment detailsFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.detailsFragment);
-        detailsFragment.setDetails((Exerciser) getIntent().getExtras().get("position"));
+        Bundle extras = getIntent().getExtras();
+        detailsFragment.setDetails((Exerciser) extras.get("position"), extras.getBoolean("Edit", false));
     }
 }

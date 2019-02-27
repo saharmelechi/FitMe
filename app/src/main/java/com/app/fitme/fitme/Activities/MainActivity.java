@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements ExerciserListFrag
 
     DetailsFragment detailsFragment;
     private static final int RC_SIGN_IN = 1;
-    private static final int PICK_IMAGE = 333;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +42,9 @@ public class MainActivity extends AppCompatActivity implements ExerciserListFrag
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Adding pog exercise", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.setType("image/*");
-                startActivityForResult(Intent.createChooser(intent, "Select file"), PICK_IMAGE);
-
+                String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+                Exerciser exe = new Exerciser(userName);
+                onItemSeleceted(exe, true);
             }
         });
 
@@ -69,17 +64,18 @@ public class MainActivity extends AppCompatActivity implements ExerciserListFrag
     }
 
     @Override
-    public void onItemSeleceted(Exerciser exerciser) {
+    public void onItemSeleceted(Exerciser exerciser,boolean EditMode) {
         detailsFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.detailsFragment);
 
         if (detailsFragment == null){
             Intent intent = new Intent();
             intent.setClass(this, DetailsActivity.class);
             intent.putExtra("position", exerciser);
+            intent.putExtra("Edit", EditMode);
             startActivity(intent);
         }
         else {
-            detailsFragment.setDetails(exerciser);
+            detailsFragment.setDetails(exerciser,EditMode);
         }
 
     }
@@ -88,19 +84,7 @@ public class MainActivity extends AppCompatActivity implements ExerciserListFrag
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
-
-
-            Exerciser m = new Exerciser("",data.getData().toString(), "Intense exercise", "long content here", 98998089891L );
-            FireBaseModel.instance.upload(m);
-
-//            fileToUpload = data.getData();
-//
-//                Glide.with(getContext())
-//                        .load(fileToUpload)
-//                        .into(imgNew);
-
-        } else if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK) {
+    if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK) {
 
             Snackbar.make(findViewById(android.R.id.content), FirebaseAuth.getInstance().getCurrentUser().getEmail() + " connected", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();

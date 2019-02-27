@@ -1,6 +1,5 @@
 package com.app.fitme.fitme.Adapters;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.app.fitme.fitme.Activities.MainActivity;
 import com.app.fitme.fitme.Fragments.ExerciserListFragment;
 import com.app.fitme.fitme.Models.Exerciser;
 import com.app.fitme.fitme.R;
@@ -33,7 +31,7 @@ public class ExercisersAdapter extends FirebaseRecyclerAdapter<Exerciser, Exerci
     @Override
     protected void onBindViewHolder(@NonNull final ExerciserViewHolder holder, final int position, @NonNull final Exerciser exerciser) {
 
-        Glide.with(holder.imgAvatar).load(exerciser.getAvatar()).into(holder.imgAvatar);
+        Glide.with(holder.imgAvatar).load(exerciser.getExeImage()).into(holder.imgAvatar);
         holder.tvTitle.setText(exerciser.getName());
         holder.tvSubTitle.setText(exerciser.getSubject());
         holder.tvContent.setText(exerciser.getContent());
@@ -42,7 +40,7 @@ public class ExercisersAdapter extends FirebaseRecyclerAdapter<Exerciser, Exerci
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ExerciserListFragment.SelectionListener) main).onItemSeleceted(exerciser);
+                ((ExerciserListFragment.SelectionListener) main).onItemSeleceted(exerciser,false);
             }
         });
 
@@ -58,7 +56,7 @@ public class ExercisersAdapter extends FirebaseRecyclerAdapter<Exerciser, Exerci
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if (item.getTitle().toString().contains("Edit")){
-                            ((ExerciserListFragment.SelectionListener) main).onItemSeleceted(exerciser);
+                            ((ExerciserListFragment.SelectionListener) main).onItemSeleceted(exerciser,true);
                         } else  {
                             getRef(position).removeValue();
                         }

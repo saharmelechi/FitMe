@@ -50,7 +50,7 @@ public class FireBaseModel {
         final StorageReference ref = storageRef.child(
                                     uid).child(exe.formatDate());
 
-        ref.putFile(Uri.parse(exe.avatar)).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+        ref.putFile(Uri.parse(exe.exeImage)).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                 if (!task.isSuccessful()) {
@@ -63,7 +63,7 @@ public class FireBaseModel {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
-                    exe.avatar = downloadUri.toString();
+                    exe.exeImage = downloadUri.toString();
                     FireBaseModel.instance.addExercise(exe);
                 }
             }
