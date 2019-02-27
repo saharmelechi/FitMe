@@ -105,7 +105,7 @@ public class DetailsFragment extends Fragment {
     public void SetEdit(boolean EditMode) {
         tvTitle.setEnabled(EditMode);
         tvContent.setEnabled(EditMode);
-        tvName.setEnabled(EditMode);
+        tvName.setEnabled(false);
 
 
         if (EditMode) {
@@ -138,7 +138,10 @@ public class DetailsFragment extends Fragment {
                     tvContent.getText().toString(),
                     time);
 
-        FireBaseModel.instance.upload(exerciser);
+            // if it's already in the cloud we don't need to reupload the image
+            if (exerciser.getExeImage().startsWith("http")) FireBaseModel.instance.addExercise(exerciser);
+            // Else we need to upload the image
+            else FireBaseModel.instance.upload(exerciser);
 
         }catch (Exception e)
         {

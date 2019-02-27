@@ -1,22 +1,18 @@
 package com.app.fitme.fitme.Activities;
 
 import android.content.Intent;
-import android.media.session.MediaController;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.app.fitme.fitme.Fragments.DetailsFragment;
 import com.app.fitme.fitme.Fragments.ExerciserListFragment;
 import com.app.fitme.fitme.Models.Exerciser;
-import com.app.fitme.fitme.Models.FireBaseModel;
 import com.app.fitme.fitme.R;
-import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -59,8 +55,29 @@ public class MainActivity extends AppCompatActivity implements ExerciserListFrag
                             .build(),
                     RC_SIGN_IN);
         }else  {
+            // Fake result to invoke connection callback
             onActivityResult(RC_SIGN_IN, RESULT_OK, this.getIntent());
         }
+
+        // Add setting to the navigation bar
+        Toolbar toolbar = findViewById(R.id.custom_toolbar);
+        setSupportActionBar(toolbar);
+
+        toolbar.setTitle(R.string.app_name);
+        toolbar.setLogo(R.mipmap.ic_launcher);
+
+        toolbar.setNavigationIcon(android.R.drawable.ic_menu_preferences);
+
+        toolbar.setNavigationOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(v.getContext(), SettingsActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
     }
 
     @Override
