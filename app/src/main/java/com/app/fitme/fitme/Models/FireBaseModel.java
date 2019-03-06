@@ -40,7 +40,7 @@ public class FireBaseModel {
     public FirebaseRecyclerOptions<Exerciser> getAllExercises(String clubName) {
 
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference(DB_NAME).child(clubName);
-
+        mRef.limitToLast(50);
         FirebaseRecyclerOptions<Exerciser> options = new FirebaseRecyclerOptions.Builder<Exerciser>()
                 .setQuery(mRef, Exerciser.class)
                 .build();
