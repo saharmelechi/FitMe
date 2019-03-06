@@ -25,7 +25,7 @@ public class Exerciser implements Serializable {
         this.name = UserName;
         this.subject = "Put subject here";
         this.content = "Hard work pays";
-        this.exeImage =  Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +R.drawable.avatar2).toString();
+        this.exeImage =  Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +R.drawable.intro2).toString();
     }
 
 

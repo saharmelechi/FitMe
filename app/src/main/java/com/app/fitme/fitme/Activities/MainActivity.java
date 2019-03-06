@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements ExerciserListFrag
 
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             preferences.edit().putString("user_name", FirebaseAuth.getInstance().getCurrentUser().getDisplayName()).apply();
+
         }
     }
 

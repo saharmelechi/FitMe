@@ -64,14 +64,12 @@ public class ExerciserListFragment extends Fragment implements AdapterView.OnIte
         }
     }
 
-    private void createExerciseAdapter() {
-        if (lstExerciser.getAdapter() != null)
+    public void createExerciseAdapter() {
+        if (lstExerciser.getAdapter() != null){
             ((ExercisersAdapter) lstExerciser.getAdapter()).stopListening();
-
-
+        }
         // Refresh data hooks
         ExercisersAdapter adapter = new ExercisersAdapter(FireBaseModel.instance.getAllExercises(ClubName), getActivity());
-
         lstExerciser.setLayoutManager(new LinearLayoutManager(this.getContext()));
         lstExerciser.setAdapter(adapter);
     }
@@ -90,7 +88,6 @@ public class ExerciserListFragment extends Fragment implements AdapterView.OnIte
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         ClubName = preferences.getString("ClubName","default_value");
-
         createExerciseAdapter();
 
     }
