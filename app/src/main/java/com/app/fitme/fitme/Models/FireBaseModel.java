@@ -17,23 +17,29 @@ import com.google.firebase.storage.UploadTask;
 public class FireBaseModel {
 
     static public FireBaseModel instance = new FireBaseModel();
-    final public String DB_NAME = "users";
+    final public String DB_NAME = "clubs";
     final public String STORAGE_NAME = "images";
     private FireBaseModel() {
     }
 
-    public void addExercise(Exerciser m) {
-        //MyMessage m = new MyMessage(FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), message, img);
+    public  boolean isAllowed(String token) {
+        boolean retVal = false;
+        String userName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        if(token.equals(userName)){
+            retVal = true;
+        }
+        return retVal;
+    }
 
-        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child(DB_NAME);
-        //mRef.child(mRef.push().getKey()).setValue(m);
-//        mRef.child( FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + m.getDate()).setValue(m);
+    public void addExercise(Exerciser m,String clubName) {
+
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child(DB_NAME).child(clubName);
         mRef.child( "" + m.getDate()).setValue(m);
     }
 
-    public FirebaseRecyclerOptions<Exerciser> getAllMessages() {
+    public FirebaseRecyclerOptions<Exerciser> getAllExercises(String clubName) {
 
-        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference(DB_NAME);
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference(DB_NAME).child(clubName);
 
         FirebaseRecyclerOptions<Exerciser> options = new FirebaseRecyclerOptions.Builder<Exerciser>()
                 .setQuery(mRef, Exerciser.class)
@@ -42,7 +48,7 @@ public class FireBaseModel {
         return options;
     }
 
-    public void upload(final Exerciser exe){
+    public void upload(final Exerciser exe, final String clubName){
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(STORAGE_NAME );
 
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -64,7 +70,7 @@ public class FireBaseModel {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
                     exe.exeImage = downloadUri.toString();
-                    FireBaseModel.instance.addExercise(exe);
+                    FireBaseModel.instance.addExercise(exe, clubName);
                 }
             }
         });

@@ -1,6 +1,7 @@
 package com.app.fitme.fitme.Adapters;
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.app.fitme.fitme.Fragments.ExerciserListFragment;
 import com.app.fitme.fitme.Models.Exerciser;
+import com.app.fitme.fitme.Models.FireBaseModel;
 import com.app.fitme.fitme.R;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -46,7 +48,7 @@ public class ExercisersAdapter extends FirebaseRecyclerAdapter<Exerciser, Exerci
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public boolean onLongClick(final View v) {
                 PopupMenu popup = new PopupMenu(v.getContext(), v);
                 MenuInflater inflater = popup.getMenuInflater();
                 inflater.inflate(R.menu.context_menu, popup.getMenu());
@@ -58,7 +60,14 @@ public class ExercisersAdapter extends FirebaseRecyclerAdapter<Exerciser, Exerci
                         if (item.getTitle().toString().contains("Edit")){
                             ((ExerciserListFragment.SelectionListener) main).onItemSeleceted(exerciser,true);
                         } else  {
-                            getRef(position).removeValue();
+
+                            if(FireBaseModel.instance.isAllowed(exerciser.getName())){
+                                getRef(position).removeValue();
+                            }
+                            else{
+                                Snackbar.make(v, "Don't delete what isn't yours!", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                            }
                         }
 
                         return true;

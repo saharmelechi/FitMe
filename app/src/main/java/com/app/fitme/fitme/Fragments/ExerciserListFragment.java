@@ -1,18 +1,16 @@
 package com.app.fitme.fitme.Fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.PopupMenu;
 
 
 import com.app.fitme.fitme.Adapters.ExercisersAdapter;
@@ -26,6 +24,7 @@ public class ExerciserListFragment extends Fragment implements AdapterView.OnIte
 
     List<Exerciser> exercisers;
     RecyclerView lstExerciser;
+    private String ClubName;
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -50,9 +49,31 @@ public class ExerciserListFragment extends Fragment implements AdapterView.OnIte
     @Override
     public void onStart() {
         super.onStart();
+
+        // If club name has changed
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+
+        String tempClub = preferences.getString("ClubName","default_value");
+        if (!ClubName.equals(tempClub)) {
+            ClubName = tempClub;
+            createExerciseAdapter();
+        }
+
         if (lstExerciser.getAdapter() != null) {
             ((ExercisersAdapter) lstExerciser.getAdapter()).startListening();
         }
+    }
+
+    private void createExerciseAdapter() {
+        if (lstExerciser.getAdapter() != null)
+            ((ExercisersAdapter) lstExerciser.getAdapter()).stopListening();
+
+
+        // Refresh data hooks
+        ExercisersAdapter adapter = new ExercisersAdapter(FireBaseModel.instance.getAllExercises(ClubName), getActivity());
+
+        lstExerciser.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        lstExerciser.setAdapter(adapter);
     }
 
     @Override
@@ -67,10 +88,11 @@ public class ExerciserListFragment extends Fragment implements AdapterView.OnIte
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ExercisersAdapter adapter = new ExercisersAdapter(FireBaseModel.instance.getAllMessages(), getActivity());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+        ClubName = preferences.getString("ClubName","default_value");
 
-        lstExerciser.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        lstExerciser.setAdapter(adapter);
+        createExerciseAdapter();
+
     }
 
 }

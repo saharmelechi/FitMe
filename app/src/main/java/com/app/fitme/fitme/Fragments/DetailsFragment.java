@@ -2,7 +2,9 @@ package com.app.fitme.fitme.Fragments;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -72,9 +74,6 @@ public class DetailsFragment extends Fragment {
                 } else {
                     SetEdit(true);
                 }
-//                Intent intent = new Intent();
-//                intent.setClass(v.getContext(), BottomNavActivity.class);
-//                startActivity(intent);
             }
         });
 
@@ -103,12 +102,19 @@ public class DetailsFragment extends Fragment {
     }
 
     public void SetEdit(boolean EditMode) {
+
+        if (EditMode && !FireBaseModel.instance.isAllowed(this.tvName.getText().toString())) {
+            EditMode = false;
+            Snackbar.make(getView(), "You can't  touch what isn't yours!", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
         tvTitle.setEnabled(EditMode);
         tvContent.setEnabled(EditMode);
         tvName.setEnabled(false);
 
 
-        if (EditMode) {
+
+        if (EditMode){
             btnEditSave.setImageResource(android.R.drawable.ic_menu_save);
 
             imgExercise.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +133,8 @@ public class DetailsFragment extends Fragment {
         }
     }
 
+
+
     private void save() {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -138,10 +146,13 @@ public class DetailsFragment extends Fragment {
                     tvContent.getText().toString(),
                     time);
 
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+            String clubName = preferences.getString("ClubName","default_value");
+
             // if it's already in the cloud we don't need to reupload the image
-            if (exerciser.getExeImage().startsWith("http")) FireBaseModel.instance.addExercise(exerciser);
+            if (exerciser.getExeImage().startsWith("http")) FireBaseModel.instance.addExercise(exerciser,clubName);
             // Else we need to upload the image
-            else FireBaseModel.instance.upload(exerciser);
+            else FireBaseModel.instance.upload(exerciser,clubName);
 
         }catch (Exception e)
         {
