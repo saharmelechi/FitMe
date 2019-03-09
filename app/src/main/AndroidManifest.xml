@@ -19,7 +19,8 @@
         >
         <activity
             android:name=".Activities.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme"></activity>
         <activity android:name=".Activities.DetailsActivity" />
         <activity android:name=".Activities.IntroActivity">
             <intent-filter>
