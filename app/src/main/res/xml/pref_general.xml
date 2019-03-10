@@ -15,13 +15,17 @@
         android:title="@string/pref_title_display_name" />
 
     <EditTextPreference
-        android:capitalize="words"
-        android:defaultValue="GeneralClub"
-        android:inputType="textCapWords"
-        android:key="ClubName"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/club_name" />
+    android:capitalize="words"
+    android:defaultValue="GeneralClub"
+    android:inputType="textCapWords"
+    android:key="ClubName"
+    android:maxLines="1"
+    android:selectAllOnFocus="true"
+    android:singleLine="true"
+    android:title="@string/club_name" />
+
+    <Preference
+        android:key="@string/logout"
+        android:title="@string/logout"></Preference>
 
 </PreferenceScreen>

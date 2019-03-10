@@ -44,20 +44,7 @@ public class MainActivity extends AppCompatActivity implements ExerciserListFrag
             }
         });
 
-        if (FirebaseAuth.getInstance().getCurrentUser() == null)
-        {
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(Arrays.asList(
-                                    new AuthUI.IdpConfig.EmailBuilder().build(),
-                                    new AuthUI.IdpConfig.GoogleBuilder().build()))
-                            .build(),
-                    RC_SIGN_IN);
-        }else  {
-            // Fake result to invoke connection callback
-            onActivityResult(RC_SIGN_IN, RESULT_OK, this.getIntent());
-        }
+        Login();
 
         // Add setting to the navigation bar
         Toolbar toolbar = findViewById(R.id.custom_toolbar);
@@ -78,6 +65,23 @@ public class MainActivity extends AppCompatActivity implements ExerciserListFrag
                     }
                 }
         );
+    }
+
+    private void Login() {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null)
+        {
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(Arrays.asList(
+                                    new AuthUI.IdpConfig.EmailBuilder().build(),
+                                    new AuthUI.IdpConfig.GoogleBuilder().build()))
+                            .build(),
+                    RC_SIGN_IN);
+        }else  {
+            // Fake result to invoke connection callback
+            onActivityResult(RC_SIGN_IN, RESULT_OK, this.getIntent());
+        }
     }
 
     @Override
@@ -109,6 +113,12 @@ public class MainActivity extends AppCompatActivity implements ExerciserListFrag
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             preferences.edit().putString("user_name", FirebaseAuth.getInstance().getCurrentUser().getDisplayName()).apply();
 
+        } else if (requestCode == RC_SIGN_IN && resultCode == RESULT_CANCELED) {
+            Snackbar.make(findViewById(android.R.id.content), "Failed to connect, please try again later.", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+
+            // If we failed to login we want to keep trying until we success
+            Login();
         }
     }
 

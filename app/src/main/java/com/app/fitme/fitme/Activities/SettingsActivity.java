@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.app.fitme.fitme.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -182,6 +183,23 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("user_name"));
 
             bindPreferenceSummaryToValue(findPreference("ClubName"));
+
+            Preference pref = findPreference(getResources().getString(R.string.logout));
+            pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    FirebaseAuth.getInstance().signOut();
+
+                    Intent intent = new Intent();
+                    intent.setClass(getContext(), MainActivity.class);
+                    startActivity(intent);
+
+                    return true;
+                }
+            });
+
+
 
         }
 
